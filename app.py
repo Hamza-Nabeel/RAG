@@ -20,7 +20,7 @@ def generate_embeddings(text_chunks, max_retries=3, delay=5):
     client = initialize_mistral()
     for attempt in range(max_retries):
         try:
-            response = client.get_embeddings(model="mistral-embed", input=text_chunks)
+             response = client.embeddings(model="mistral-embed", inputs=text_chunks)
             return response.data
         except Exception as e:
             if "429" in str(e):
