@@ -7,7 +7,7 @@ import faiss
 from mistralai.client import MistralClient
 
 # Define API key for Mistral API
-api_key = "YOUR_API_KEY"  # Replace with your actual API key
+api_key = "NXyKdE5JFehmTjXn1RtYyVBOlMzPLGyB"  # Replace with your actual API key
 
 # Initialize Mistral client
 def initialize_mistral():
