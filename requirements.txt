@@ -1,5 +1,5 @@
 streamlit
 requests
 beautifulsoup4
-mistralai
+mistralai>=0.4.2
 faiss-cpu
