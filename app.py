@@ -198,16 +198,16 @@ def main():
 
     # Define the policy links
     policy_links = {
-        "Sport and Wellness Policy": "https://www.udst.edu.qa/policy1",
-        "Student Conduct Policy": "https://www.udst.edu.qa/policy2",
-        "Student Attendance Policy": "https://www.udst.edu.qa/policy3",
-        "Academic Standing Policy": "https://www.udst.edu.qa/policy4",
-        "Final Grade Policy": "https://www.udst.edu.qa/policy5",
-        "Registration Policy": "https://www.udst.edu.qa/policy6",
-        "Student Engagement Policy": "https://www.udst.edu.qa/policy7",
-        "International Student Policy": "https://www.udst.edu.qa/policy8",
-        "Graduation Policy": "https://www.udst.edu.qa/policy9",
-        "Student Counselling Policy": "https://www.udst.edu.qa/policy10",
+        "Sport and Wellness Policy": "https://www.udst.edu.qa/about-udst/institutional-excellence-ie/policies-and-procedures/sport-and-wellness-facilities-and",
+        "Student Conduct Policy": "https://www.udst.edu.qa/about-udst/institutional-excellence-ie/policies-and-procedures/student-conduct-policy",
+        "Student Attendance Policy": "https://www.udst.edu.qa/about-udst/institutional-excellence-ie/policies-and-procedures/student-attendance-policy",
+        "Academic Standing Policy": "https://www.udst.edu.qa/about-udst/institutional-excellence-ie/policies-and-procedures/academic-standing-policy",
+        "Final Grade Policy": "https://www.udst.edu.qa/about-udst/institutional-excellence-ie/policies-and-procedures/final-grade-policy",
+        "Registration Policy": "https://www.udst.edu.qa/about-udst/institutional-excellence-ie/policies-and-procedures/registration-policy",
+        "Student Engagement Policy": "https://www.udst.edu.qa/about-udst/institutional-excellence-ie/udst-policies-and-procedures/student-engagement-policy",
+        "International Student Policy": "https://www.udst.edu.qa/about-udst/institutional-excellence-ie/udst-policies-and-procedures/international-student-policy",
+        "Graduation Policy": "https://www.udst.edu.qa/about-udst/institutional-excellence-ie/udst-policies-and-procedures/graduation-policy",
+        "Student Counselling Policy": "https://www.udst.edu.qa/about-udst/institutional-excellence-ie/policies-and-procedures/student-council-procedure",
     }
 
     # Listbox for policy selection
