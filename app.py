@@ -4,14 +4,16 @@ from bs4 import BeautifulSoup
 import numpy as np
 import time
 import faiss
-from mistralai.client import MistralClient
+from mistralai import Mistral
+
 
 # Define API key for Mistral API
 api_key = "NXyKdE5JFehmTjXn1RtYyVBOlMzPLGyB"  # Replace with your actual API key
 
 # Initialize Mistral client
 def initialize_mistral():
-    return MistralClient(api_key=api_key)
+    return Mistral(api_key=api_key)
+
 
 # Function to obtain text embeddings with retry logic
 def generate_embeddings(text_chunks, max_retries=3, delay=5):
