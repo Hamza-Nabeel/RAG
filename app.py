@@ -8,7 +8,9 @@ from mistralai import Mistral
 
 
 # Define API key for Mistral API
-api_key = "NXyKdE5JFehmTjXn1RtYyVBOlMzPLGyB"  # Replace with your actual API key
+# api_key = "NXyKdE5JFehmTjXn1RtYyVBOlMzPLGyB"  # Replace with your actual API key
+api_key = st.secrets["MISTRAL_API_KEY"]
+
 
 # Initialize Mistral client
 def initialize_mistral():
