@@ -117,16 +117,25 @@ import requests
 from bs4 import BeautifulSoup
 import numpy as np
 import faiss
+import time
 from mistralai import Mistral
 
 # Define API key for Mistral API
 api_key = "NXyKdE5JFehmTjXn1RtYyVBOlMzPLGyB"  # Replace with your actual API key
 
-# Function to get text embeddings from Mistral
-def get_text_embedding(list_txt_chunks):
+# Function to get text embeddings from Mistral with rate limit handling
+def get_text_embedding(list_txt_chunks, max_retries=3, delay=5):
     client = Mistral(api_key=api_key)
-    embeddings_batch_response = client.embeddings.create(model="mistral-embed", inputs=list_txt_chunks)
-    return embeddings_batch_response.data
+    for attempt in range(max_retries):
+        try:
+            embeddings_batch_response = client.embeddings.create(model="mistral-embed", inputs=list_txt_chunks)
+            return embeddings_batch_response.data
+        except Exception as e:
+            if "429" in str(e):
+                time.sleep(delay * (2 ** attempt))  # Exponential backoff
+            else:
+                raise e
+    raise Exception("Exceeded retry attempts for embeddings.")
 
 # Fetching and parsing the UDST policies page based on the policy URL
 def fetch_policies(url):
@@ -164,16 +173,24 @@ def handle_query(query, chunks, index):
     response = mistral(prompt)
     return response
 
-# Function to interact with Mistral for generating answers
-def mistral(user_message, model="mistral-large-latest"):
+# Function to interact with Mistral for generating answers with rate limit handling
+def mistral(user_message, model="mistral-large-latest", max_retries=3, delay=5):
     client = Mistral(api_key=api_key)
-    chat_response = client.chat.complete(
-        model=model,
-        messages=[
-            {"role": "user", "content": user_message},
-        ]
-    )
-    return chat_response.choices[0].message.content
+    for attempt in range(max_retries):
+        try:
+            chat_response = client.chat.complete(
+                model=model,
+                messages=[
+                    {"role": "user", "content": user_message},
+                ]
+            )
+            return chat_response.choices[0].message.content
+        except Exception as e:
+            if "429" in str(e):
+                time.sleep(delay * (2 ** attempt))  # Exponential backoff
+            else:
+                raise e
+    raise Exception("Exceeded retry attempts for chat generation.")
 
 # Streamlit UI Setup
 def main():
