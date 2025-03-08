@@ -4,27 +4,21 @@ from bs4 import BeautifulSoup
 import numpy as np
 import time
 import faiss
-
-# from mistralai import Mistral
 from mistralai.client import MistralClient
-
 
 # Define API key for Mistral API
 api_key = "NXyKdE5JFehmTjXn1RtYyVBOlMzPLGyB"  # Replace with your actual API key
 
-
 # Initialize Mistral client
 def initialize_mistral():
     return MistralClient(api_key=api_key)
-
 
 # Function to obtain text embeddings with retry logic
 def generate_embeddings(text_chunks, max_retries=3, delay=5):
     client = initialize_mistral()
     for attempt in range(max_retries):
         try:
-            response = client.embeddings(model="mistral-embed", input=text_chunks)
-
+            response = client.get_embeddings(model="mistral-embed", input=text_chunks)
             return response.data
         except Exception as e:
             if "429" in str(e):
@@ -33,18 +27,15 @@ def generate_embeddings(text_chunks, max_retries=3, delay=5):
                 raise e
     raise Exception("Exceeded retry attempts for embeddings.")
 
-
 # Function to retrieve policy content
 def extract_policy_content(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     return soup.get_text() if soup else "Policy text unavailable."
 
-
 # Function to split text into chunks
 def split_text(text, size=512):
     return [text[i : i + size] for i in range(0, len(text), size)]
-
 
 # Function to setup FAISS index
 def setup_faiss(embeddings):
@@ -52,7 +43,6 @@ def setup_faiss(embeddings):
     index = faiss.IndexFlatL2(dimension)
     index.add(np.array([e.embedding for e in embeddings]))
     return index
-
 
 # Function to process user queries with retry logic
 def process_query(user_query, text_chunks, faiss_index, max_retries=3, delay=5):
@@ -69,13 +59,12 @@ def process_query(user_query, text_chunks, faiss_index, max_retries=3, delay=5):
     """
     return generate_response(query_prompt, max_retries, delay)
 
-
 # Function to communicate with Mistral with retry logic
 def generate_response(input_text, max_retries=3, delay=5, model="mistral-large-latest"):
     client = initialize_mistral()
     for attempt in range(max_retries):
         try:
-            response = client.chat(
+            response = client.chat_completion(
                 model=model,
                 messages=[{"role": "user", "content": input_text}],
             )
@@ -86,7 +75,6 @@ def generate_response(input_text, max_retries=3, delay=5, model="mistral-large-l
             else:
                 raise e
     raise Exception("Exceeded retry attempts for chat generation.")
-
 
 # Streamlit UI configuration
 def main():
@@ -116,7 +104,6 @@ def main():
     if user_input:
         response = process_query(user_input, text_chunks, faiss_index)
         st.text_area("Response:", value=response, height=250)
-
 
 if __name__ == "__main__":
     main()
